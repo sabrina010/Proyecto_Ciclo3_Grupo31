@@ -30,7 +30,7 @@
                         <a class="nav-link" href="Controlador?menu=Empleados&accion=Listar" target="miContenedor">Empleados</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Controlador?menu=Clientes" target="miContenedor">Clientes</a>
+                        <a class="nav-link" href="Controlador?menu=Clientes&accion=Listar" target="miContenedor">Clientes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Controlador?menu=Ventas&accion=default" target="miContenedor">Ventas</a>
@@ -53,9 +53,9 @@
             </div>
         </nav>
 
-        <div class="m-3" style="height:900px;">
-            <iframe name="miContenedor" style="height:100%; width:100%;" frameBorder="1"></iframe>
-        </div>
+        
+        <iframe name="miContenedor" style="height:calc(100vh - 56px); width:100%;" frameBorder="1"></iframe>
+        
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

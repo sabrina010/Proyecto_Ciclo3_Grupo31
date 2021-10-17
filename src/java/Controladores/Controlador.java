@@ -11,6 +11,8 @@ import Modelos.Usuario;
 import Modelos.UsuarioDAO;
 import Modelos.Venta;
 import Modelos.VentaDAO;
+import Modelos.Cliente;
+import Modelos.ClienteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
@@ -34,6 +36,9 @@ public class Controlador extends HttpServlet {
     int idUsuario;
     Producto producto = new Producto();
     ProductoDAO productoDAO = new ProductoDAO();
+    int idCliente;
+    Cliente cliente = new Cliente();
+    ClienteDAO clienteDAO = new  ClienteDAO();
     Venta venta = new Venta();
     int item, codProducto, precio, cantidad;
     String descripcion;
@@ -163,6 +168,62 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("Empleados.jsp").forward(request, response);
         }
         if (menu.equals("Clientes")) {
+            
+            switch (accion) {
+                case "Listar":
+                    List lista = clienteDAO.Listar();
+                    request.setAttribute("clientes", lista);
+
+                    break;
+                case "Agregar":
+
+                    int documento = Integer.parseInt(request.getParameter("txtdocumento"));
+                    String nombre = request.getParameter("txtnombre");
+                    String correo = request.getParameter("txtcorreo");
+                    String direccion = request.getParameter("txtdireccion");
+                    int telefono = Integer.parseInt(request.getParameter("txttelefono"));
+                    cliente.setDocumento(documento);
+                    cliente.setNombre(nombre);
+                    cliente.setDireccion(direccion);
+                    cliente.setTelefono(telefono);
+                    clienteDAO.Agregar(cliente);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+
+                    break;
+                case "Actualizar":
+
+                    Cliente cliente1 = new Cliente();
+                    int documentoUpdate = Integer.parseInt(request.getParameter("txtdocumento"));
+                    String nombreUpdate = request.getParameter("txtnombre");
+                    String correoUpdate = request.getParameter("txtcorreo");
+                    String direccionUpdate = request.getParameter("txtdireccion");
+                    int telefonoUpdate = Integer.parseInt(request.getParameter("txttelefono"));
+                    cliente1.setDocumento(documentoUpdate);
+                    cliente1.setNombre(nombreUpdate);
+                    cliente1.setCorreo(correoUpdate);
+                    cliente1.setDireccion(direccionUpdate);
+                    cliente1.setTelefono(telefonoUpdate);
+                    cliente1.setId(idCliente);
+                    clienteDAO.Actualizar(cliente1);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+
+                    break;
+                case "Cargar":
+
+                    idCliente = Integer.parseInt(request.getParameter("id"));
+                    Cliente cliente = clienteDAO.ListarPorId(idCliente);
+                    request.setAttribute("clienteseleccionado", cliente);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+
+                    break;
+                case "Eliminar":
+
+                    idCliente = Integer.parseInt(request.getParameter("id"));
+                    clienteDAO.Eliminar(idCliente);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+
+                    break;
+            }
             request.getRequestDispatcher("Clientes.jsp").forward(request, response);
         }
         if (menu.equals("Ventas")) {
